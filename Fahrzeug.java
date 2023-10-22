@@ -1,6 +1,4 @@
-// import java.util.HashSet;
 import java.util.List;
-// import java.util.Set;
 
 public class Fahrzeug {
 	private String Kennzeichen;
@@ -24,6 +22,6 @@ public class Fahrzeug {
 
 	@Override
 	public String toString(){
-		return "Auto mit Kennzeichen: "+Kennzeichen+"ist geparkt in "+position+".";
+		return "Auto mit Kennzeichen: "+Kennzeichen+" ist geparkt in Etage"+position.get(0)+" position "+position.get(1)+".";
 	}
 }

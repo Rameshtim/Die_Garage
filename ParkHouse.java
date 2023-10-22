@@ -1,7 +1,6 @@
-import java.util.ArrayList;
+// import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-// import java.util.Scanner;
 import java.util.List;
 
 public class ParkHouse {
@@ -22,39 +21,30 @@ public class ParkHouse {
 			if (position.get(1) >= this.slot){
 				if (position.get(0) < this.etage){
 					int firstValue = position.get(0);
-            		firstValue++; // Increase the value
+            		firstValue++; 
             		position.set(0, firstValue);
 					int secondValue = position.get(1);
-					secondValue = 1; // Increase the value
+					secondValue = 1; 
 					position.set(1, secondValue);
 				}
 				else {
-					System.out.println("Keine Platz Mehr");
+					System.out.println("\n********************************");
+					System.out.println("*******Keine Platz Mehr*********");
+					System.out.println("********************************\n");
 					return null;
 				}
 			}
 			else {
 				int secondValue = position.get(1);
-            	secondValue++; // Increase the value
+            	secondValue++; 
             	position.set(1, secondValue);
 			}
 		}
-		// for (Map.Entry<String, Integer> entry : this.parkingSpaces.entrySet()){
-		// 		String key = entry.getKey();
-		// 		Integer value = entry.getValue();
-		// 		System.out.println("Key: " + key + ", Value: " + value);
-		// 		position++;
-		// 	}
-		//Integer position = nextAvailablePosition;
 		fahrzeug.park(position);
 		parkingSpaces.put(fahrzeug.getKennzeichen(), position);
 		nextAvailablePosition++;
 		return position;
 	}
-
-	// public Fahrzeug getFahrzeugAtPosition(int position) {
-	// 	return parkingSpaces.get(position);
-	// }
 
 	public List<Integer> getFahrzeugByKennzeichen(String kennzeichen) {
 		return parkingSpaces.get(kennzeichen);
