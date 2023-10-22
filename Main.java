@@ -1,5 +1,4 @@
 import java.util.List;
-// import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
@@ -75,6 +74,12 @@ public class Main {
 	}
 
 	private static void parkFahrzeug(ParkHouse parkHouse, Scanner scanner) {
+		System.out.print("Möchten Sie Auto oder Motorrad parken? (j/n) : ");
+		String check = scanner.next();
+		if (!check.equals("j")){
+			System.out.println("Es tut uns leid, aber Sie dürfen bei uns nur Auto oder Motorrad parken.");
+			return ;
+		}
 		System.out.print("Bitte Kennzeichen eingeben : ");
 		String kennzeichen = scanner.next();
 		System.out.println();
