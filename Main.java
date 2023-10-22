@@ -1,18 +1,26 @@
+import java.util.List;
+// import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
 	public static void main (String[] args) {
 
 
-		ParkHouse parkHouse = new ParkHouse();
 		Scanner scanner = new Scanner(System.in);
+		
+		System.out.println("\nAnzahl die Parketagen eingeben :");
+		Integer etage = getUserChoice(scanner);
+		System.out.println("\nAnzahl die Parkplaetze pro Etage eingeben :");
+		Integer slot = getUserChoice(scanner);
+		ParkHouse parkHouse = new ParkHouse(etage, slot);
 
 		while (true) {
 			System.out.println("\nBitte Waehlen: ");
 			System.out.println("1. Fahrzeug Parken.");
-			System.out.println("2. Park Platz verlassen !");
-			System.out.println("3. Position des Fahrzeug abfragen !");
-			System.out.println("4. Simulation Beenden.");
+			System.out.println("2. Park Platz verlassen.");
+			System.out.println("3. Position des Fahrzeug abfragen.");
+			System.out.println("4. Gesamt Frei Plaetze.");
+			System.out.println("5. Simulation Beenden.");
 
 			int choice = getUserChoice(scanner);
 
@@ -27,6 +35,9 @@ public class Main {
 					inquireAboutPosition(parkHouse, scanner);
 					break;
 				case 4:
+					inquireAvailableSlots(parkHouse, scanner);
+					break;
+				case 5:
 					System.out.println("Simulation Beendet.");
 					scanner.close();
 					System.exit(0);
@@ -48,17 +59,25 @@ public class Main {
 	private static void parkFahrzeug(ParkHouse parkHouse, Scanner scanner) {
 		System.out.print("Bitte Kennzeichen eingeben: ");
 		String kennzeichen = scanner.next();
-		Fahrzeug fahrzeug = new Fahrzeug(kennzeichen);
-		int	position = parkHouse.parkVehicle(fahrzeug);
-		System.out.println("Das Fahrzeug wurde geparkt in position "+position);
+		List<Integer> position = parkHouse.getFahrzeugByKennzeichen(kennzeichen);
+		if (position == null) {
+			Fahrzeug fahrzeug = new Fahrzeug(kennzeichen);
+			if (fahrzeug.getKennzeichen() != null){
+				position = parkHouse.parkVehicle(fahrzeug);
+				if (position != null){
+					System.out.println("Das Fahrzeug wurde geparkt in position "+position);
+				}
+		}} else {
+			System.out.println("Error\n Doppelte Kennzeichen.");
+		}
 	}
 
 	private static void leaveParkHouse(ParkHouse parkHouse, Scanner scanner) {
 		System.out.print("Bitte position des Fahrzeug eingeben: ");
 		String kennzeichen = scanner.next();
-		Fahrzeug fahrzeug = parkHouse.getFahrzeugByKennzeichen(kennzeichen);
-		if (fahrzeug != null) {
-			System.out.println("Das Fahrzeug mit Kennzeichen "+fahrzeug.getKennzeichen()+"verlaesst das ParkHaus.");
+		List<Integer> position = parkHouse.getFahrzeugByKennzeichen(kennzeichen);
+		if (position != null) {
+			System.out.println("Das Fahrzeug mit Kennzeichen "+kennzeichen+" verlaesst das ParkHaus.");
 			parkHouse.removeFahrzeug(kennzeichen);
 		} else {
 			System.out.println("Keine Fahrzeug gefunden mit kennzeichen "+kennzeichen+".");
@@ -68,41 +87,16 @@ public class Main {
 	private static void inquireAboutPosition(ParkHouse parkHouse, Scanner scanner) {
 		System.out.print("Bitte Kennzeichen geben fuer position anfragen: ");
 		String inquiryKennzeichen = scanner.next();
-		Fahrzeug inquryFahrzeug = parkHouse.getFahrzeugByKennzeichen(inquiryKennzeichen);
+		List<Integer> inquryPosition = parkHouse.getFahrzeugByKennzeichen(inquiryKennzeichen);
 
-		if (inquryFahrzeug != null) {
-			System.out.println("Details von "+inquiryKennzeichen+": "+inquryFahrzeug);
-		} else {
+		if (inquryPosition != null) {
+			System.out.println("Details von "+inquiryKennzeichen+": "+inquryPosition);
+		} else{
 			System.out.println("Das Fahrzeug mit Kennzeichne "+inquiryKennzeichen+" nicht gefunden.");
 		}
 	}
+
+	private static void inquireAvailableSlots(ParkHouse parkHouse, Scanner scanner) {
+		System.out.print("Gesamt verfugbar frei plaetze sind :"+parkHouse.getAvailableSlots());
+	}
 }
-
-
-		// ParkHouse parkHouse = new ParkHouse();
-		// Scanner scanner = new Scanner(System.in);
-
-		// System.out.println("Geben Sie die Kennzeichen von Auto: ");
-		// String kennzeichen1 = scanner.nextLine();
-		// Fahrzeug fahrzeug1 = new Fahrzeug(kennzeichen1);
-		// int position1 = parkHouse.parkVehicle(fahrzeug1);
-
-		// System.out.println("Geben sie die Kennzeichen von Motorrad: ");
-		// String kennzeichen2 = scanner.nextLine();
-		// Fahrzeug fahrzeug2 = new Fahrzeug(kennzeichen2);
-		// int position2 = parkHouse.parkVehicle(fahrzeug2);
-
-		// System.out.println("Ihr autos sind geparked.");
-
-		// System.out.println("Geben Sie die Kennzeichen fuer PlatzAnfrage ");
-		// String inquiryKennzeichen = scanner.nextLine();
-		// // Fahrzeug inquiryFahrzeug = parkHouse.getFahrzeugAtPosition(inquiryKennzeichen);
-		// Fahrzeug inquiryFahrzeug = parkHouse.getFahrzeugByKennzeichen(inquiryKennzeichen);
-
-		// if (inquiryFahrzeug != null) {
-		// 	System.out.println("Die Details von "+inquiryKennzeichen+": "+inquiryFahrzeug);
-		// }
-		// else {
-		// 	System.out.println("Das Fahrzeug mit Kennzeichen "+inquiryKennzeichen+" nicht gefunden.");
-		// }
-		// scanner.close();

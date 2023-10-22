@@ -1,35 +1,24 @@
-import java.util.HashSet;
-import java.util.Set;
+// import java.util.HashSet;
+import java.util.List;
+// import java.util.Set;
 
 public class Fahrzeug {
 	private String Kennzeichen;
-	private int position;
-
-	public static Set<String> uniqueLicensePlates = new HashSet<>();
-
+	private List<Integer> position;
 
 	public Fahrzeug(String Kennzeichen){
 		this.Kennzeichen = Kennzeichen;
-
-		if (!isLicensePlateUnique(Kennzeichen)){
-			throw new IllegalArgumentException("Kennzeichen darf nur einmal Existieren");
-		}
-		uniqueLicensePlates.add(Kennzeichen);
-	}
-
-	private boolean isLicensePlateUnique(String Kennzeichen) {
-		return !uniqueLicensePlates.contains(Kennzeichen);
 	}
 
 	public String getKennzeichen() {
 		return Kennzeichen;
 	}
 
-	public int getPosition() {
+	public List<Integer> getPosition() {
 		return position;
 	}
 
-	public void park(int position) {
+	public void park(List<Integer> position) {
 		this.position = position;
 	}
 
